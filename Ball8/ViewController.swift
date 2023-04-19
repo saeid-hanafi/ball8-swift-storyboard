@@ -25,19 +25,17 @@ class ViewController: UIViewController {
         luckyNum.text = ""
         luckyResult.text = ""
         luckyBtnCheck.layer.cornerRadius = 10
-        luckyBtnCheck.layer.shadowOffset = CGSize(width: 6, height: 6)
-        luckyBtnCheck.layer.shadowColor = UIColor.init(rgb: 0xFFFFFF).withAlphaComponent(0.5).cgColor
-        luckyBtnCheck.layer.shadowOpacity = 1
-        luckyBtnCheck.layer.shadowRadius = 1
-        
+        luckyBtnCheck.setShadow(rgb: 0xFFFFFF)
     }
     
+}
+
+extension ViewController {
     private func getRandomNumber(upper: UInt32) -> UInt32 {
         return arc4random_uniform(upper)
     }
     
     private func randomBackGround() {
-        var numbers = [1, 2, 3, 4, 5, 6, 7, 8]
         DispatchQueue.global(qos: .background).async {
             for i in 0...7 {
                 DispatchQueue.main.async {
@@ -71,7 +69,7 @@ class ViewController: UIViewController {
             "ناامید نشو"
         ]
         
-        var chanceIndex = getRandomNumber(upper: 8)
+        let chanceIndex = getRandomNumber(upper: 8)
         luckyNum.text = String(chanceIndex)
         luckyResult.text = chances[Int(chanceIndex)]
     }
@@ -79,7 +77,6 @@ class ViewController: UIViewController {
     @IBAction func luckyBtnAction(_ sender: Any) {
         randomBackGround()
     }
-    
 }
 
 extension CGFloat {
@@ -87,6 +84,16 @@ extension CGFloat {
            return CGFloat(arc4random()) / CGFloat(UInt32.max)
     }
 }
+
+extension UIButton {
+    func setShadow(rgb: UInt) {
+        self.layer.shadowOffset = CGSize(width: 6, height: 6)
+        self.layer.shadowColor = UIColor.init(rgb: rgb).withAlphaComponent(0.5).cgColor
+        self.layer.shadowOpacity = 1
+        self.layer.shadowRadius = 1
+    }
+}
+
 extension UIColor {
     static var random: UIColor {
            return UIColor(red: .random, green: .random, blue: .random, alpha: 1.0)
